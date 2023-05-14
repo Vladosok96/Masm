@@ -34,8 +34,8 @@
 
 	DAOutput			db "00000000", 10, 13, 0
 	DBOutput			db "00000000", 10, 13, 0
-	DAResult   			db "Enter DA(0-7) = ", 0
-	DBResult			db "Enter DB(0-7) = ", 0
+	DAResult   			db "Result DA(0-7) = ", 0
+	DBResult			db "Result DB(0-7) = ", 0
 
 .code
 
@@ -48,15 +48,15 @@ start:
 	
 	mov ebx, 0
 	mov esi, offset DAInput
-    mov ecx, 8
+	mov ecx, 8
 DA_loop_start:
 	shl ebx, 1
-    lodsb
+	lodsb
 	cmp al, 31h
 	jne DA_next
 	inc ebx
 DA_next:
-    loop DA_loop_start
+	loop DA_loop_start
 	mov DAbyte, bl
 
 
@@ -65,15 +65,15 @@ DA_next:
 
 	mov ebx, 0
 	mov esi, offset DBInput
-    mov ecx, 8
+	mov ecx, 8
 DB_loop_start:
 	shl ebx, 1
-    lodsb
+	lodsb
 	cmp al, 31h
 	jne DB_next
 	inc ebx
 DB_next:
-    loop DB_loop_start
+	loop DB_loop_start
 	mov DBbyte, bl
 
 	invoke		crt_printf, offset FPrompt, 0
@@ -81,22 +81,22 @@ DB_next:
 
 	mov ebx, 0
 	mov esi, offset FInput
-    mov ecx, 8
+	mov ecx, 8
 F_loop_start:
 	shl ebx, 1
-    lodsb
+	lodsb
 	cmp al, 31h
 	jne F_next
 	inc ebx
 F_next:
-    loop F_loop_start
+	loop F_loop_start
 	mov Fbyte, bl
 
 	invoke		crt_printf, offset CIPrompt, 0
 	invoke		crt_scanf, offset scanf8String, offset CIInput
 
 	mov esi, offset CIInput
-    lodsb
+	lodsb
 	cmp al, 31h
 	jne Start_compute
 	mov CIbyte, 1
@@ -249,7 +249,7 @@ End_compute:
 	mov bl, DAbyte
 	mov esi, offset DAOutput
 	add esi, 7
-    mov ecx, 0
+	mov ecx, 0
 DA_loop_print:
 	bt bx, 0
 	jnc DA_loop_print_zero
@@ -258,7 +258,7 @@ DA_loop_print_zero:
 	shr bx, 1
 	dec esi
 	inc ecx
-    cmp ecx, 8
+	cmp ecx, 8
 	jl DA_loop_print
 
 	invoke		crt_printf, offset DAResult, 0
@@ -267,7 +267,7 @@ DA_loop_print_zero:
 	mov bl, DBbyte
 	mov esi, offset DBOutput
 	add esi, 7
-    mov ecx, 0
+	mov ecx, 0
 DB_loop_print:
 	bt bx, 0
 	jnc DB_loop_print_zero
@@ -276,7 +276,7 @@ DB_loop_print_zero:
 	shr bx, 1
 	dec esi
 	inc ecx
-    cmp ecx, 8
+	cmp ecx, 8
 	jl DB_loop_print
 
 	invoke		crt_printf, offset DBResult, 0
